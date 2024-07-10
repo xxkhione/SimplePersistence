@@ -62,6 +62,23 @@ public class FileManipulator {
     }
 
     public static void deleteFile(int id){
-        for(int i = 0; i <= FILE_PATH.list().length)
+        File fileToDelete = new File(FILE_PATH + "/" + id);
+        for(int i = 0; i <= FILE_PATH.list().length; i++){
+            if(fileToDelete.exists()){
+                fileToDelete.delete();
+            }
+        }
+    }
+
+    public static void updateFile(){
+        int updateChoice = 1;
+        switch(updateChoice){
+            case 1: //update first name
+                break;
+            case 2: //update last name
+                break;
+            case 3: //update hire year
+                break;
+        }
     }
 }
