@@ -6,7 +6,7 @@
  */
 package edu.neumont.dbt230.view;
 
-import edu.neumont.dbt230.controller.ReadingFiles;
+import edu.neumont.dbt230.controller.FileManipulator;
 import edu.neumont.dbt230.model.Employee;
 
 public class Display {
@@ -15,7 +15,7 @@ public class Display {
 
     public static void printEmployeeFiles(){
         System.out.println("Printing non-structured employees:");
-        for(String file : ReadingFiles.getFiles()){
+        for(String file : FileManipulator.getFiles()){
             System.out.println(file);
         }
         System.out.println("-----------------------------");
@@ -23,7 +23,7 @@ public class Display {
 
     public static void printEmployees(){
         System.out.println("Printing structured employees:");
-        for(Employee employee : ReadingFiles.getEmployeeData(ReadingFiles.getFiles())){
+        for(Employee employee : FileManipulator.getEmployeeData(FileManipulator.getFiles())){
             System.out.println(employee.toString());
             System.out.println("------------------");
         }

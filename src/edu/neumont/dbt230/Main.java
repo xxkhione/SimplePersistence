@@ -1,6 +1,5 @@
 package edu.neumont.dbt230;
 
-import edu.neumont.dbt230.controller.ReadingFiles;
 import edu.neumont.dbt230.view.Display;
 
 /**

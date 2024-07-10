@@ -12,7 +12,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReadingFiles {
+public class FileManipulator {
     private static final File FILE_PATH = new File("C:/Courses/Q4/DBT230/AssignmentOneData/people/long");
 
     public static List<String> getFiles(){
@@ -50,5 +50,14 @@ public class ReadingFiles {
             employees.add(employee);
         }
         return employees;
+    }
+
+    public static String searchingFiles(int id){
+        for (int i = 0; i <= FILE_PATH.list().length; i++) {
+            if(i == id){
+                return FILE_PATH.toString() + id +".txt";
+            }
+        }
+        return null;
     }
 }
