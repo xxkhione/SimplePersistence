@@ -6,7 +6,7 @@ public class SearchFiles {
 
     private static final File FILE_PATH = new File("C:/Year1-Neumont/Databases 2/AssignmentOneData/people/long");
 
-    private static final int FILE_MAX = 10;
+    private static final int FILE_MAX = FILE_PATH.list().length;
 
     public static String searchingFiles(int id){
         for (int i = 0; i <= FILE_MAX ; i++) {
