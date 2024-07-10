@@ -62,6 +62,6 @@ public class FileManipulator {
     }
 
     public static void deleteFile(int id){
-        for(int i = 0; i <= FILE_PATH.list().length)
+        for(int i = 0; i <= FILE_PATH.list().length;);
     }
 }
