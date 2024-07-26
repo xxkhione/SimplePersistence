@@ -1,5 +1,6 @@
 package edu.neumont.dbt230;
 
+import edu.neumont.dbt230.controller.FileManipulator;
 import edu.neumont.dbt230.view.Display;
 
 /**
@@ -11,7 +12,12 @@ import edu.neumont.dbt230.view.Display;
 
 public class Main {
     public static void main(String[] args) {
-        Display.printEmployeeFiles();
-        Display.printEmployees();
+        //Display.printEmployeeFiles();
+        //Display.printEmployees();
+        //System.out.println(FileManipulator.searchForFile(10));
+        //FileManipulator.deleteFile(1);
+        //FileManipulator.writeFile("11", "11, DAMIA, SARGENT, 2024");
+        //FileManipulator.createFile("DAMIA, SARGENT, 2024");
+        //FileManipulator.updateFile(1, 3, "1984");
     }
 }
