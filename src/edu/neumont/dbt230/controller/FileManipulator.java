@@ -106,5 +106,8 @@ public class FileManipulator {
                 bWriter.close();
             }
         } catch(IOException ioe) {}
+
+    public static void deleteFile(int id){
+        for(int i = 0; i <= FILE_PATH.list().length;);
     }
 }
