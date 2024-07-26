@@ -28,21 +28,23 @@ public class FileManipulator {
     public static List<Employee> getEmployeeData(List<String> employeeInfo){
         List<Employee> employees = new ArrayList<>();
         for(String info : employeeInfo){
-            Employee employee = null;
-            int id = 0;
-            String firstName = null;
-            String lastName = null;
-            int hireYear = 0;
-
-            String[] infoParts = info.split(", ");
-            id = Integer.parseInt(infoParts[0]);
-            firstName = infoParts[1];
-            lastName = infoParts[2];
-            hireYear = Integer.parseInt(infoParts[3]);
-            employee = new Employee(id, firstName, lastName, hireYear);
-            employees.add(employee);
+            employees.add(getSingleEmployee(info));
         }
         return employees;
+    }
+    public static Employee getSingleEmployee(String info){
+        Employee employee = null;
+        int id = 0;
+        String firstName = null;
+        String lastName = null;
+        int hireYear = 0;
+
+        String[] infoParts = info.split(", ");
+        id = Integer.parseInt(infoParts[0]);
+        firstName = infoParts[1];
+        lastName = infoParts[2];
+        hireYear = Integer.parseInt(infoParts[3]);
+        return employee = new Employee(id, firstName, lastName, hireYear);
     }
 
     public static void createFile(String contents) {
@@ -71,7 +73,7 @@ public class FileManipulator {
                 specificContent[3] = updatedValue;
                 break;
         }
-       String updatedFileContent = id + ", " + specificContent[1] + ", " + specificContent[2] + ", " + specificContent[3];
+        String updatedFileContent = id + ", " + specificContent[1] + ", " + specificContent[2] + ", " + specificContent[3];
         writeFile(String.valueOf(id), updatedFileContent);
     }
     public static String searchForFile(int id){
@@ -93,21 +95,18 @@ public class FileManipulator {
         } catch(IOException ioe){}
         return fileInformation;
     }
-    private static void writeFile(String id, String contents){
+    private static void writeFile(String id, String contents) {
         String path = FILE_PATH + "/" + id + ".txt";
         BufferedWriter bWriter = null;
-        try{
+        try {
             bWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path)));
-            try{
+            try {
                 bWriter.write(contents);
-            } catch(IOException ioe){
+            } catch (IOException ioe) {
                 throw new RuntimeException(ioe);
-            } finally{
+            } finally {
                 bWriter.close();
             }
-        } catch(IOException ioe) {}
-
-    public static void deleteFile(int id){
-        for(int i = 0; i <= FILE_PATH.list().length;);
+        } catch (IOException ioe) {}
     }
 }
