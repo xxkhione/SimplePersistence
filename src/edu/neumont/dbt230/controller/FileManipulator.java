@@ -7,12 +7,19 @@
 package edu.neumont.dbt230.controller;
 
 import edu.neumont.dbt230.model.Employee;
+import edu.neumont.dbt230.view.Display;
+
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FileManipulator {
-    public static final File FILE_PATH = new File("C:/Courses/Q4/DBT230/AssignmentOneData/people/simple");
+    public static final File FILE_PATH = new File("C:/Courses/Q4/DBT230/AssignmentOneData/people/long");
+    public static List<Employee> employees;
+    public static Map<Integer, Employee> idIndex = new HashMap<>();
+    public static Map<String, Employee> lastNameIndex = new HashMap<>();
 
     public static List<String> getFiles(){
         if(FILE_PATH.exists()){
@@ -26,7 +33,7 @@ public class FileManipulator {
         return null;
     }
     public static List<Employee> getEmployeeData(List<String> employeeInfo){
-        List<Employee> employees = new ArrayList<>();
+        employees = new ArrayList<>();
         for(String info : employeeInfo){
             employees.add(getSingleEmployee(info));
         }
@@ -61,20 +68,25 @@ public class FileManipulator {
     }
     public static void updateFile(int id, int userChoice, String updatedValue){
         String fileContent = searchForFile(id);
-        String[] specificContent = fileContent.split(", ");
-        switch(userChoice){
-            case 1: //update first name
-                specificContent[1] = updatedValue;
-                break;
-            case 2: //update last name
-                specificContent[2] = updatedValue;
-                break;
-            case 3: //update hire year
-                specificContent[3] = updatedValue;
-                break;
+        if(fileContent != null){
+            String[] specificContent = fileContent.split(", ");
+            switch(userChoice){
+                case 1: //update first name
+                    specificContent[1] = updatedValue;
+                    break;
+                case 2: //update last name
+                    specificContent[2] = updatedValue;
+                    break;
+                case 3: //update hire year
+                    specificContent[3] = updatedValue;
+                    break;
+            }
+            String updatedFileContent = id + ", " + specificContent[1] + ", " + specificContent[2] + ", " + specificContent[3];
+            writeFile(String.valueOf(id), updatedFileContent);
+            Display.successfulMsg();
+        } else{
+            Display.errorMsg();
         }
-        String updatedFileContent = id + ", " + specificContent[1] + ", " + specificContent[2] + ", " + specificContent[3];
-        writeFile(String.valueOf(id), updatedFileContent);
     }
     public static String searchForFile(int id){
         for (int i = 0; i <= FILE_PATH.list().length; i++) {
@@ -108,5 +120,14 @@ public class FileManipulator {
                 bWriter.close();
             }
         } catch (IOException ioe) {}
+    }
+
+    public static void createIndexes(){
+        for(Employee employee : employees){
+            idIndex.put(employee.getId(), employee);
+        }
+        for(Employee employee : employees){
+            lastNameIndex.put(employee.getLastName(), employee);
+        }
     }
 }

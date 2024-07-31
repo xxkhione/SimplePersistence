@@ -6,81 +6,71 @@
  */
 package edu.neumont.dbt230.controller;
 
+import edu.neumont.dbt230.model.Employee;
 import edu.neumont.dbt230.view.Display;
 
 public class FileController {
 
-    public void run(){
+    public void run() {
         do{
-            // Welcome the user
+            FileManipulator.getEmployeeData(FileManipulator.getFiles());
+            FileManipulator.createIndexes();
             Display.welcomeMsg();
-            int selection = Display.mainMenu(); // UI method that takes in the user input
-            switch(selection)
-            {
-                case 1:
-                    // 1. Create an employee file
-                        // get the first name
-                        // get the last name
-                        // get the hire year
-                        // calls the formating file
-                        // calls createFile
-
+            int selection = Display.mainMenu();
+            switch(selection) {
+                case 1: // 1. Create an employee file
                     String fName = Display.getFirstName();
                     String lName = Display.getLastName();
                     int hireYear = Display.getHireYear();
-
                     FileManipulator.createFile(formatEmployeeContents(fName, lName, hireYear));
-
                     break;
-                case 2:
-                    // 2. Update an employee file
-                        // get the id of the employee the user wants to update
-                        // get the selection of what they want to update
-                        // get the info they want to update
-                        // calls updateFile
-
-                    Display.getIDSearch();
-                        int option = Display.updateMenu();
-                        switch(option){
-                            case 1:
-                                // First Name
-                                Display.updateFirstName();
+                case 2: // 2. Update an employee file
+                    int id = Display.getIDSearch();
+                    int option = Display.updateMenu();
+                        switch(option) {
+                            case 1: // First Name
+                                String updatedFirstName = Display.updateFirstName();
+                                FileManipulator.updateFile(id, option, updatedFirstName);
                                 break;
-                            case 2:
-                                // Last Name
-                                Display.updateLastName();
+                            case 2: // Last Name
+                                String updatedLastName = Display.updateLastName();
+                                FileManipulator.updateFile(id, option, updatedLastName);
                                 break;
-                            case 3:
-                                // Hire Year
-                                Display.updateHireYear();
+                            case 3: // Hire Year
+                                int updatedHireYear = Display.updateHireYear();
+                                FileManipulator.updateFile(id, option, String.valueOf(updatedHireYear));
                                 break;
                         }
-
                     break;
-                case 3:
-                    // 3. Delete an employee file
-                        // get the id of the employee the user wants to delete
-                        // calls deleteFile
-
+                case 3: // 3. Delete an employee file
                     int idDelete = Display.getIDSearch();
                     FileManipulator.deleteFile(idDelete);
-
                     break;
-                case 4:
-                    // 4. Search for an employee
-                        // get the id of the employee the user wants to find
-                        // calls getSingleEmployee
-
+                case 4: // 4. Search for an employee
                     int idSearch = Display.getIDSearch();
-                    FileManipulator.deleteFile(idSearch);
-
+                    String employee = FileManipulator.searchForFile(idSearch);
+                    if(employee != null){
+                        Employee foundEmployee = FileManipulator.getSingleEmployee(employee);
+                        Display.printSingleEmployee(foundEmployee);
+                    } else{
+                        Display.errorMsg();
+                    }
                     break;
-                case 5:
-                    // 5. View all employees
-                    Display.printEmployees();
+                case 5: // 5. View all employees
+                    int choice = Display.displayMenu();
+                    switch(choice){
+                        case 1: //Display by ID
+                            Display.printIdIndexEmployees();
+                            break;
+                        case 2: //Display by Last Name
+                            Display.printLastNameIndexEmployees();
+                            break;
+                        case 3: //Display unsorted employees
+                            Display.printEmployees();
+                            break;
+                    }
                     break;
-                default:
-                    // 6. Quit
+                default: // 6. Quit
                     Display.quit();
                     return;
             }
@@ -93,5 +83,5 @@ public class FileController {
         contents.append(lastName + ", ");
         contents.append(hireYear);
         return contents.toString();
-    }
+   }
 }
