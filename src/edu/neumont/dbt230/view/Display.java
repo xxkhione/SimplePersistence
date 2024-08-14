@@ -26,11 +26,11 @@ public class Display {
 
     public static String getFirstName(){
         String firstName = console.getStringInput("Enter the Employee's first name: ");
-        return firstName;
+        return firstName.toUpperCase();
     }
     public static String getLastName(){
         String lastName = console.getStringInput("Enter the Employee's last name: ");
-        return lastName;
+        return lastName.toUpperCase();
     }
     public static int getHireYear(){
         int hireYear = console.getIntInput("Enter the Employee's hire year: ");
@@ -52,11 +52,11 @@ public class Display {
     }
     public static String updateFirstName(){
         String firstName = console.getStringInput("Enter the Employee's updated first name: ");
-        return firstName;
+        return firstName.toUpperCase();
     }
     public static String updateLastName(){
         String lastName = console.getStringInput("Enter the Employee's updated last name: ");
-        return lastName;
+        return lastName.toUpperCase();
     }
     public static int updateHireYear(){
         int hireYear = console.getIntInput("Enter the Employee's updated hire year: ");
