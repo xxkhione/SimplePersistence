@@ -9,6 +9,9 @@ package edu.neumont.dbt230.view;
 import edu.neumont.dbt230.controller.FileManipulator;
 import edu.neumont.dbt230.model.Employee;
 
+import java.util.List;
+import java.util.Map;
+
 public class Display {
     static Console console = new Console();
 
@@ -32,6 +35,10 @@ public class Display {
     public static int getHireYear(){
         int hireYear = console.getIntInput("Enter the Employee's hire year: ");
         return hireYear;
+    }
+
+    public static int searchMenu(){
+        return Console.getIntInput("How would you like to find the employees? \n1. By ID \n2. By Last Name");
     }
 
     public static int getIDSearch(){
@@ -78,18 +85,35 @@ public class Display {
         System.out.println("Printing structured employees:");
         for(Employee employee : FileManipulator.getEmployeeData(FileManipulator.getFiles())){
             System.out.println(employee.toString());
-            System.out.println("------------------");
+            System.out.println("------------------------");
         }
     }
     public static void printIdIndexEmployees(){
         System.out.println("Printing employees by ID:");
         for(int i = 1; i < FileManipulator.idIndex.size(); i ++){
             System.out.println(FileManipulator.idIndex.get(i));
-            System.out.println("------------------");
+            System.out.println("------------------------");
         }
     }
     public static void printLastNameIndexEmployees(){
         System.out.println("Printing employees by last name");
+        for(Map.Entry<String, List<Employee>> entry : FileManipulator.lastNameIndex.entrySet()){
+            List<Employee> employees = entry.getValue();
+
+            System.out.println("------------------------");
+            for(Employee employee : employees){
+                System.out.println(employee.toString());
+            }
+        }
+    }
+    public static void printEmployeesWithGivenLastName(List<Employee> employees){
+        for(Employee employee : employees){
+            printSingleEmployee(employee);
+        }
     }
 
+    public static void printTimeTakenToExecute(long duration){
+        long durationInSeconds = duration / 1_000_000_000;
+        System.out.println("Executed in " + (durationInSeconds / 60) + " minutes and " + (durationInSeconds % 60) + " seconds.");
+    }
 }

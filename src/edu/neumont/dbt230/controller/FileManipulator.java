@@ -17,9 +17,10 @@ import java.util.Map;
 
 public class FileManipulator {
     public static final File FILE_PATH = new File("C:/Courses/Q4/DBT230/AssignmentOneData/people/long");
+    public static final File SERIALIZED_PATH = new File("C:/Courses/Q4/DBT230/AssignmentOneData/people/long serialized");
     public static List<Employee> employees;
     public static Map<Integer, Employee> idIndex = new HashMap<>();
-    public static Map<String, Employee> lastNameIndex = new HashMap<>();
+    public static Map<String, List<Employee>> lastNameIndex = new HashMap<>();
 
     public static List<String> getFiles(){
         if(FILE_PATH.exists()){
@@ -88,11 +89,23 @@ public class FileManipulator {
             Display.errorMsg();
         }
     }
-    public static String searchForFile(int id){
+    public static String searchForFile(int id) {
         for (int i = 0; i <= FILE_PATH.list().length; i++) {
             if(i == id){
                 return readFile(id + ".txt");
             }
+        }
+        return null;
+    }
+    public static List<Employee> searchByLastName(String lastName) {
+        if(lastNameIndex.containsKey(lastName)) {
+            return lastNameIndex.get(lastName);
+        }
+        return null;
+    }
+    public static Employee searchById(int id) {
+        if(idIndex.containsKey(id)){
+            return idIndex.get(id);
         }
         return null;
     }
@@ -127,7 +140,26 @@ public class FileManipulator {
             idIndex.put(employee.getId(), employee);
         }
         for(Employee employee : employees){
-            lastNameIndex.put(employee.getLastName(), employee);
+            String lastName = employee.getLastName();
+            List<Employee> employeesWithSameLastName = lastNameIndex.getOrDefault(lastName, new ArrayList<>());
+            employeesWithSameLastName.add(employee);
+            lastNameIndex.put(lastName, employeesWithSameLastName);
+        }
+    }
+
+    private static void serializeEmployee(Employee employee, String id){
+        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(SERIALIZED_PATH + "/" + id + ".ser"))){
+            out.writeObject(employee);
+        } catch(IOException ioe){}
+    }
+
+    //This works! But for the sake of not constantly having all 10,000 employees being serialized and causing issues, I'm not using it anywhere.
+    public static void serializeAllEmployees(){
+        for(Map.Entry<Integer, Employee> entry : idIndex.entrySet()){
+            int employeeId = entry.getKey();
+            Employee employee = entry.getValue();
+
+            serializeEmployee(employee, String.valueOf(employeeId));
         }
     }
 }

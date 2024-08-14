@@ -9,10 +9,15 @@ package edu.neumont.dbt230.controller;
 import edu.neumont.dbt230.model.Employee;
 import edu.neumont.dbt230.view.Display;
 
+import java.util.List;
+
 public class FileController {
 
     public void run() {
+        long startTime;
+        long endTime;
         do{
+            startTime = System.nanoTime();
             FileManipulator.getEmployeeData(FileManipulator.getFiles());
             FileManipulator.createIndexes();
             Display.welcomeMsg();
@@ -47,13 +52,22 @@ public class FileController {
                     FileManipulator.deleteFile(idDelete);
                     break;
                 case 4: // 4. Search for an employee
-                    int idSearch = Display.getIDSearch();
-                    String employee = FileManipulator.searchForFile(idSearch);
-                    if(employee != null){
-                        Employee foundEmployee = FileManipulator.getSingleEmployee(employee);
-                        Display.printSingleEmployee(foundEmployee);
-                    } else{
-                        Display.errorMsg();
+                    int searchOption = Display.searchMenu();
+                    switch(searchOption){
+                        case 1: //search by ID
+                            int searchID = Display.getIDSearch();
+                            Employee searchedEmployee = FileManipulator.searchById(searchID);
+                            if(searchedEmployee != null){
+                                Display.printSingleEmployee(searchedEmployee);
+                            } else { Display.errorMsg(); }
+                            break;
+                        case 2: //search by last name
+                            String lastName = Display.getLastName();
+                            List<Employee> employeesWithLastName = FileManipulator.searchByLastName(lastName);
+                            if(employeesWithLastName != null){
+                                Display.printEmployeesWithGivenLastName(employeesWithLastName);
+                            } else { Display.errorMsg(); }
+                            break;
                     }
                     break;
                 case 5: // 5. View all employees
@@ -74,6 +88,8 @@ public class FileController {
                     Display.quit();
                     return;
             }
+            endTime = System.nanoTime();
+            Display.printTimeTakenToExecute((endTime - startTime));
         } while(true);
     }
 
